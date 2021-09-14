@@ -108,7 +108,7 @@ function compareStrings(){
             var diff = (string1.length >= string2.length) ? string1.length : string2.length;
             var similarity = (1 - diff / maxLength) * 100;
 
-            outputBox.value = `Difference:\t${diff} of ${maxLength} characters\nSimilarity:\t${similarity.toFixed(2)} %`;
+            outputBox.value = `Difference:\t${diff} of ${maxLength.toFixed(0)} characters\nSimilarity:\t${similarity.toFixed(2)} %`;
         }
     </script>
 </body>
