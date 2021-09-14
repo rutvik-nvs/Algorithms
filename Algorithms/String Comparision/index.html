@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>String Comparision</title>
+    <title>String Comparison</title>
 
     <link rel="shortcut icon" href="../../SandBox_B_128.png" type="image/x-icon">
 
@@ -12,45 +12,103 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="../../style.css">
+    <style>
+        .container{
+            max-width: 980px;
+        }
+    </style>
 </head>
 <body class="bg-dark text-light">
     <div>
-        <div class="container mt-4">
-            <div class="display-6 mb-4">String Comparision |<span class="h2 ms-2 text-white-50">Dashboard</span></div>
+        <div class="container mt-5">
+            <div class="display-6 mb-4">String Comparison</div>
         </div>
-        <div class="container mt-4">
+        <div class="container mt-5">
             <div class="row" style="padding:.75rem;">
                 <div class="col me-4 p-0">Enter String 1</div>
                 <div class="col ms-4 p-0">Enter String 2</div>
             </div>
             <div class="row" style="padding:.75rem;">
-                <textarea id="string-1" class="col me-4 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; height:160px; border:1px solid #909090; border-radius:4px"></textarea>
-                <textarea id="string-2" class="col ms-4 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; height:160px; border:1px solid #909090; border-radius:4px"></textarea>
+                <input id="string-1" class="col me-4 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; border:1px solid #909090; border-radius:4px">
+                <input id="string-2" class="col ms-4 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; border:1px solid #909090; border-radius:4px">
             </div>
             <div class="row" style="padding:.75rem;">
-                <div class="col mt-4 p-0">
+                <div class="col mt-5 p-0">
                     <button class="btn btn-outline-light py-2 px-4" onclick="compareStrings()">Compare</button>
                 </div>
             </div>
             <div class="row" style="padding:.75rem;">
-                <textarea id="output" class="col mt-2 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; height:100px; border:1px solid #909090; border-radius:4px"></textarea>
+                <textarea id="output" class="col mt-3 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; border:1px solid #909090; border-radius:4px"></textarea>
+            </div>
+            
+            <div class="mt-5">
+                <div class="display-6">Algorithm</div>
+                <pre>
+<code style="color:#d63384">
+<span class="text-muted">// CompareStrings Function</span>
+function compareStrings(){
+
+    <span class="text-muted">// String Arrays</span>
+    var string1 = Array.from("String-01");
+    var string2 = Array.from("String-02");
+
+    <span class="text-muted">// Max Length of String 1 and String 2</span>
+    var maxLength = (string1.length >= string2.length) ? string1.length : string2.length;
+
+    <span class="text-muted">// Set Length to 0.01 if Length == 0 to avoid divide by zero exception</span>
+    maxLength = (maxLength == 0) ? 0.01 : maxLength;
+
+    <span class="text-muted">// Remove similar characters from both the arrays, leaving only the characters that are not same in both</span>
+    for(let i = 0; i < string1.length; i++){
+        for(let j = 0; j < string2.length; j++){
+            if(string1[i] == string2[j]){
+                string1.splice(i, 1);
+                string2.splice(j, 1);
+
+                i = -1;
+                j = -1;
+            }
+        }
+    }
+
+    <span class="text-muted">// Number of different characters</span>
+    var diff = (string1.length >= string2.length) ? string1.length : string2.length;
+
+    <span class="text-muted">// Similarity percentage</span>
+    var similarity = (1 - diff / maxLength) * 100;
+}
+</code>
+                </pre>
             </div>
         </div>
     </div>
 
     <script>
-        var output = document.getElementById("output");
+        var outputBox = document.getElementById("output");
 
         function compareStrings(){
-            var string1 = document.getElementById("string-1").value;
-            var string2 = document.getElementById("string-2").value;
+            var string1 = Array.from(document.getElementById("string-1").value);
+            var string2 = Array.from(document.getElementById("string-2").value);
 
-            if(string1 == string2){
-                output.innerText = "Output is same";
+            var maxLength = (string1.length >= string2.length) ? string1.length : string2.length;
+            maxLength = (maxLength == 0) ? 0.01 : maxLength;
+
+            for(let i = 0; i < string1.length; i++){
+                for(let j = 0; j < string2.length; j++){
+                    if(string1[i] == string2[j]){
+                        string1.splice(i, 1);
+                        string2.splice(j, 1);
+
+                        i = -1;
+                        j = -1;
+                    }
+                }
             }
-            else{
-                output.innerText = "Output is not same";
-            }
+
+            var diff = (string1.length >= string2.length) ? string1.length : string2.length;
+            var similarity = (1 - diff / maxLength) * 100;
+
+            outputBox.value = `Difference:\t${diff} of ${maxLength} characters\nSimilarity:\t${similarity.toFixed(2)} %`;
         }
     </script>
 </body>
