@@ -1,0 +1,28 @@
+.btn{
+    max-width: 240px;
+}
+
+input{
+    width: 6rem;
+}
+input:focus{
+    outline: none;
+}
+
+::-webkit-scrollbar {
+    width: 14px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(104, 104, 104);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(173, 173, 173);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(80, 80, 80);
+}
