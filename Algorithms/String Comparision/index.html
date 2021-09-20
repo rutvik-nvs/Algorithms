@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="row" style="padding:.75rem;">
-                <textarea id="output" class="col mt-3 p-4 bg-dark text-light" style="overflow-y:scroll; overflow-x:hidden; border:1px solid #909090; border-radius:4px"></textarea>
+                <div id="output" class="col mt-3 p-4 bg-dark text-light" style="border:1px solid #909090; border-radius:4px">&nbsp;</div>
             </div>
             
             <div class="mt-5">
@@ -58,21 +58,35 @@ function compareStrings(){
     <span class="text-muted">// Set Length to 0.01 if Length == 0 to avoid divide by zero exception</span>
     maxLength = (maxLength == 0) ? 0.01 : maxLength;
 
+    var positionOffset_first = 0;
+    var positionOffset_second = 0;
+
     <span class="text-muted">// Remove similar characters from both the arrays, leaving only the characters that are not same in both</span>
     for(let i = 0; i < string1.length; i++){
         for(let j = 0; j < string2.length; j++){
+            if(string2[i] == string1[j]){
+                if(i != j){
+                    positionOffset_first++;
+                }
+            }
             if(string1[i] == string2[j]){
                 string1.splice(i, 1);
                 string2.splice(j, 1);
+
+                if(i != j){
+                    positionOffset_second++;
+                }
 
                 i = 0;
                 j = -1;
             }
         }
     }
-
     <span class="text-muted">// Number of different characters</span>
     var diff = (string1.length >= string2.length) ? string1.length : string2.length;
+
+    <span class="text-muted">// Number of position differences of same characters</span>
+    var positionOffset = (positionOffset_first <= positionOffset_second) ? positionOffset_first : positionOffset_second;
 
     <span class="text-muted">// Similarity percentage</span>
     var similarity = (1 - diff / maxLength) * 100;
@@ -93,11 +107,23 @@ function compareStrings(){
             var maxLength = (string1.length >= string2.length) ? string1.length : string2.length;
             maxLength = (maxLength == 0) ? 0.01 : maxLength;
 
+            var positionOffset_first = 0;
+            var positionOffset_second = 0;
+
             for(let i = 0; i < string1.length; i++){
                 for(let j = 0; j < string2.length; j++){
+                    if(string2[i] == string1[j]){
+                        if(i != j){
+                            positionOffset_first++;
+                        }
+                    }
                     if(string1[i] == string2[j]){
                         string1.splice(i, 1);
                         string2.splice(j, 1);
+
+                        if(i != j){
+                            positionOffset_second++;
+                        }
 
                         i = 0;
                         j = -1;
@@ -106,9 +132,10 @@ function compareStrings(){
             }
 
             var diff = (string1.length >= string2.length) ? string1.length : string2.length;
-            var similarity = (1 - diff / maxLength) * 100;
+            var positionOffset = (positionOffset_first <= positionOffset_second) ? positionOffset_first : positionOffset_second;
+            var similarity = (1 - diff / maxLength - positionOffset / maxLength) * 100;
 
-            outputBox.value = `Difference:\t${diff} of ${maxLength.toFixed(0)} characters\nSimilarity:\t${similarity.toFixed(2)} %`;
+            outputBox.innerText = `Difference:\t${diff} of ${maxLength.toFixed(0)} characters\nPosition Offsets:\t${positionOffset}\nSimilarity:\t${similarity.toFixed(2)} %`;
         }
     </script>
 </body>
